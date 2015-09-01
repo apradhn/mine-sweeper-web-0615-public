@@ -7,6 +7,7 @@ class MineSweeper
   def initialize(field)
     @field = field
     @row_length = field.first.size
+    @column_length = field.size
   end
 
   def sweep_field
@@ -25,17 +26,17 @@ class MineSweeper
     #top
     @field[row_idx - 1][tile_idx] += 1 if row_idx > 0 && !mine?(row_idx-1, tile_idx)
     #top_right corner
-    @field[row_idx - 1][tile_idx + 1] += 1 if row_idx > 0 && tile_idx < 4 && !mine?(row_idx-1, tile_idx+1)
+    @field[row_idx - 1][tile_idx + 1] += 1 if row_idx > 0 && tile_idx < @row_length - 1 && !mine?(row_idx-1, tile_idx+1)
     #left
     @field[row_idx][tile_idx - 1] += 1 if tile_idx > 0 && !mine?(row_idx, tile_idx-1)
     #bottom_left corner
-    @field[row_idx + 1][tile_idx - 1] += 1 if row_idx < 4 && tile_idx > 0 && !mine?(row_idx+1, tile_idx-1)
+    @field[row_idx + 1][tile_idx - 1] += 1 if row_idx < @column_length - 1 && tile_idx > 0 && !mine?(row_idx+1, tile_idx-1)
     #bottom
-    @field[row_idx + 1][tile_idx] += 1 if row_idx < 4 && !mine?(row_idx+1, tile_idx)
+    @field[row_idx + 1][tile_idx] += 1 if row_idx < @column_length - 1 && !mine?(row_idx+1, tile_idx)
     #bottom_right corner
-    @field[row_idx + 1][tile_idx + 1] += 1 if row_idx < 4 && tile_idx < 4 && !mine?(row_idx+1, tile_idx+1)
+    @field[row_idx + 1][tile_idx + 1] += 1 if row_idx < @column_length - 1 && tile_idx < @row_length - 1 && !mine?(row_idx+1, tile_idx+1)
     # right
-    @field[row_idx][tile_idx + 1] += 1 if tile_idx < 4 && !mine?(row_idx, tile_idx+1)
+    @field[row_idx][tile_idx + 1] += 1 if tile_idx < @row_length - 1 && !mine?(row_idx, tile_idx+1)
   end
 
   def mine?(row_idx, tile_idx)
